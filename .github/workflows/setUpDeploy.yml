@@ -1,0 +1,17 @@
+name: SetUpDeploy
+
+on:
+    push:
+        branches:
+        - deploy
+jobs:
+  "set_up_deploy":
+    runs-on: self-hosted
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v3
+      - name: Remove DB
+        run: npx ts-node remove_db.ts mongodb://127.0.0.1:27017/my_library_db
+      - name: Populate DB
+        run: npx ts-node insert_sample_data.ts mongodb://127.0.0.1:27017/my_library_db
+
